@@ -18,47 +18,27 @@ class User(Base):
     profile_picture = Column(String(150), nullable=True)
     
 
-class Followers(Base):
-    __tablename__ = 'followers'
+class Follow(Base):
+    __tablename__ = 'follow'
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('user.id'))
-    follower_id = Column(Integer)
+    follower_id = Column(Integer, ForeignKey('user.id'))
+    followed_id = Column(Integer, ForeignKey('user.id'))
     user = relationship(User)
 
-class Followed(Base):
-    __tablename__ = 'followed'
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('user.id'))
-    followed_id = Column(Integer)
-    user = relationship(User)
 
 class Post(Base):
     __tablename__ = 'post'
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
-    body = Column(String(120), nullable=True)
+    body = Column(String(120), nullable=False)
     date = Column(String(120), nullable=False)
-    total_likes = Column(String(120), nullable=False)
-    total_coments = Column(String(200), nullable=False)
     user = relationship(User)
-
-class Feed(Base):
-    __tablename__ = 'feed'
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('user.id'))
-    post_id = Column(Integer, ForeignKey('post.id'))
-    created_at = Column(String(120), nullable=False)
-    updated_at = Column(String(120), nullable=False)
-    user = relationship(User)
-    post = relationship(Post)
 
 class Like(Base):
     __tablename__ = 'like'
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
     post_id = Column(Integer, ForeignKey('post.id'))
-    created_at = Column(String(120), nullable=False)
-    updated_at = Column(String(120), nullable=False)
     user = relationship(User)
     post = relationship(Post)
 
@@ -67,9 +47,8 @@ class Comment(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('user.id'))
     post_id = Column(Integer, ForeignKey('post.id'))
-    comments = Column(String(200), nullable=True)
+    comments = Column(String(200), nullable=False)
     created_at = Column(String(120), nullable=False)
-    updated_at = Column(String(120), nullable=False)
     user = relationship(User)
     post = relationship(Post)
 
